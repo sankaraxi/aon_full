@@ -1,0 +1,43 @@
+[
+  {
+    "viewport": {
+      "width": 320,
+      "height": 480
+    },
+    "isResponsive": true
+  },
+  {
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "isResponsive": true
+  },
+  {
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "isResponsive": true
+  },
+  {
+    "testName": "Concurrent User Load Time",
+    "concurrentUsers": 5,
+    "loadTimes": [
+      1717,
+      1786,
+      1711,
+      1726,
+      1830
+    ],
+    "averageLoadTime": 1754,
+    "timestamp": "2024-06-02T11:01:14.698Z"
+  },
+  {
+    "viewport": {
+      "width": 320,
+      "height": 480
+    },
+    "isResponsive": false
+  }
+]
