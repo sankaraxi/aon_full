@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Addcategory } from './add_category';
+import Addcategory from './add_category';
 import MDEditor from '@uiw/react-md-editor';
 
 export default function Corepage() {
@@ -17,7 +17,7 @@ export default function Corepage() {
 
   // Fetch categories on component mount
   useEffect(() => {
-    fetch("http://localhost:5001/getcategory")
+    fetch("http://localhost:5001/api/getcategory")
       .then(res => res.json())
       .then(data => setDisplaycategory(data));
   }, []);
@@ -26,7 +26,7 @@ export default function Corepage() {
   const handlesubcategory = () => {
     const category = document.getElementById("category_select").value;
     const key = { category };
-    axios.post("http://localhost:5001/getsubcategory", key)
+    axios.post("http://localhost:5001/api/getsubcategory", key)
       .then((res) => {
         setDisplaysubcategory(res.data);
       });
@@ -120,7 +120,7 @@ export default function Corepage() {
     if (question === '') {
       alert("Please provide the question");
     } else {
-      axios.post("http://localhost:5001/insertquestion", key)
+      axios.post("http://localhost:5001/api/insertquestion", key)
         .then((res) => {
           if (res.data.status === "inserted") {
             alert("Question created successfully");
@@ -133,16 +133,18 @@ export default function Corepage() {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-gray-50 min-h-screen">
+    <div className="container mx-auto p-4 bg-gradient-to-b from-gray-50 to-gray-100 min-h-screen">
+      <h1 className="text-2xl font-bold mb-6 text-blue-800 border-b-2 pb-3 border-blue-200">Question Builder & UI Testing</h1>
+      
       <div className="grid grid-cols-2 gap-6">
         {/* Left Side: Category and Subcategory Selection */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
           <div className="mb-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">Select Category</label>
             <select
               id="category_select"
               onChange={handlesubcategory}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all duration-200"
             >
               <option value="item1">Select the Category</option>
               {displaycategory.map((value, index) => (
@@ -154,7 +156,7 @@ export default function Corepage() {
             <label className="block text-sm font-medium text-gray-700 mb-2">Select Subcategory</label>
             <select
               id="subcategory_select"
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm transition-all duration-200"
             >
               <option value="">Select the Sub Category</option>
               {displaysubcategory.map((value, index) => (
@@ -166,44 +168,46 @@ export default function Corepage() {
         </div>
 
         {/* Right Side: Question Editor */}
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <h1 className="text-xl font-bold mb-4 text-gray-800">Question Editor</h1>
+        <div className="bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+          <h1 className="text-xl font-bold mb-4 text-gray-800 border-b pb-2">Question Editor</h1>
           <MDEditor
             value={editorValue}
             onChange={setEditorValue}
-            className="w-full"
+            className="w-full border border-gray-200 rounded-md overflow-hidden"
           />
         </div>
       </div>
 
       {/* User-Interface Testing Section */}
-      <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-bold mb-4 text-gray-800">User-Interface Testing</h2>
+      <div className="mt-8 bg-white p-6 rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+        <h2 className="text-xl font-bold mb-6 text-gray-800 border-b pb-2">User-Interface Testing</h2>
         <div className="space-y-6">
           {/* Page Name Input */}
-          <div>
+          <div className="bg-gray-50 p-4 rounded-md">
             <label className="block text-sm font-medium text-gray-700 mb-2">Page Name</label>
-            <input
-              type="text"
-              value={selectedPage}
-              onChange={(e) => setSelectedPage(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              onClick={addPage}
-              className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-            >
-              Add Page
-            </button>
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={selectedPage}
+                onChange={(e) => setSelectedPage(e.target.value)}
+                className="flex-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+              />
+              <button
+                onClick={addPage}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 shadow-sm"
+              >
+                Add Page
+              </button>
+            </div>
           </div>
 
           {/* Select Page */}
-          <div>
+          <div className="bg-gray-50 p-4 rounded-md">
             <label className="block text-sm font-medium text-gray-700 mb-2">Select Page</label>
             <select
               value={selectedPage}
               onChange={(e) => setSelectedPage(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
             >
               <option value="">Select Page</option>
               {pages.map((page) => (
@@ -213,12 +217,12 @@ export default function Corepage() {
           </div>
 
           {/* Select Element */}
-          <div>
+          <div className="bg-gray-50 p-4 rounded-md">
             <label className="block text-sm font-medium text-gray-700 mb-2">Select Element</label>
             <select
               value={selectedElement}
               onChange={(e) => setSelectedElement(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
             >
               <option value="">Select Element</option>
               {HTML_ELEMENTS.map((element) => (
@@ -229,48 +233,52 @@ export default function Corepage() {
 
           {/* Select Attributes */}
           {selectedElement && (
-            <div>
+            <div className="bg-gray-50 p-4 rounded-md">
               <label className="block text-sm font-medium text-gray-700 mb-2">Select Attributes</label>
-              {HTML_ATTRIBUTES[selectedElement].map((attribute) => (
-                <div key={attribute} className="mb-2">
-                  <input
-                    type="checkbox"
-                    id={attribute}
-                    name={attribute}
-                    checked={selectedAttributes[attribute]}
-                    onChange={(e) => handleCheckboxChange(attribute, e.target.checked)}
-                    className="mr-2"
-                  />
-                  <label htmlFor={attribute}>{attribute}</label>
-                  {selectedAttributes[attribute] && (
-                    <input
-                      type="text"
-                      placeholder={`Enter value for ${attribute}`}
-                      value={attributeValues[attribute] || ''}
-                      onChange={(e) => handleAttributeValueChange(attribute, e.target.value)}
-                      className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  )}
-                </div>
-              ))}
+              <div className="grid grid-cols-2 gap-4">
+                {HTML_ATTRIBUTES[selectedElement].map((attribute) => (
+                  <div key={attribute} className="mb-2 bg-white p-3 rounded-md shadow-sm border border-gray-100">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        id={attribute}
+                        name={attribute}
+                        checked={selectedAttributes[attribute]}
+                        onChange={(e) => handleCheckboxChange(attribute, e.target.checked)}
+                        className="mr-2 h-4 w-4 text-blue-600 focus:ring-blue-500 rounded"
+                      />
+                      <label htmlFor={attribute} className="text-sm font-medium text-gray-700">{attribute}</label>
+                    </div>
+                    {selectedAttributes[attribute] && (
+                      <input
+                        type="text"
+                        placeholder={`Enter value for ${attribute}`}
+                        value={attributeValues[attribute] || ''}
+                        onChange={(e) => handleAttributeValueChange(attribute, e.target.value)}
+                        className="w-full p-2 border border-gray-300 rounded-md mt-2 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           )}
 
           {/* Element Value Input */}
-          <div>
+          <div className="bg-gray-50 p-4 rounded-md">
             <label className="block text-sm font-medium text-gray-700 mb-2">Element Value</label>
             <input
               type="text"
               value={elementValue}
               onChange={(e) => setElementValue(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm"
             />
           </div>
 
           {/* Add Element Button */}
           <button
             onClick={addElement}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors duration-300 shadow-sm"
           >
             Add Element
           </button>
@@ -278,32 +286,38 @@ export default function Corepage() {
           {/* Created Testcase Table */}
           <div className="mt-8">
             <h2 className="text-xl font-bold mb-4 text-gray-800">Created Testcase</h2>
-            <table className="w-full border-collapse border border-gray-300">
-              <thead>
-                <tr className="bg-gray-100">
-                  <th className="border p-2 text-left">Page Name</th>
-                  <th className="border p-2 text-left">Element</th>
-                  <th className="border p-2 text-left">Value</th>
-                  <th className="border p-2 text-left">Attributes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pages.map((page) =>
-                  page.elements.map((element, index) => (
-                    <tr key={`${page.name}-${index}`} className="hover:bg-gray-50">
-                      <td className="border p-2">{page.name}</td>
-                      <td className="border p-2">{element.tagName}</td>
-                      <td className="border p-2">{element.value}</td>
-                      <td className="border p-2">
-                        {element.attributes.map((attr, attrIndex) => (
-                          <p key={attrIndex}>{attr.name}: {attr.value}</p>
-                        ))}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto rounded-lg shadow-md border border-gray-200">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-blue-50">
+                    <th className="border-b border-gray-300 p-3 text-left font-semibold text-gray-700">Page Name</th>
+                    <th className="border-b border-gray-300 p-3 text-left font-semibold text-gray-700">Element</th>
+                    <th className="border-b border-gray-300 p-3 text-left font-semibold text-gray-700">Value</th>
+                    <th className="border-b border-gray-300 p-3 text-left font-semibold text-gray-700">Attributes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {pages.map((page) =>
+                    page.elements.map((element, index) => (
+                      <tr key={`${page.name}-${index}`} className="hover:bg-gray-50 border-b border-gray-200">
+                        <td className="p-3 text-gray-800 font-medium">{page.name}</td>
+                        <td className="p-3">
+                          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">{element.tagName}</span>
+                        </td>
+                        <td className="p-3">{element.value}</td>
+                        <td className="p-3">
+                          {element.attributes.map((attr, attrIndex) => (
+                            <div key={attrIndex} className="mb-1">
+                              <span className="font-medium text-gray-700">{attr.name}:</span> {attr.value}
+                            </div>
+                          ))}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -312,7 +326,7 @@ export default function Corepage() {
       <button
         type="submit"
         onClick={handlesubmitquestion}
-        className="mt-6 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 float-right"
+        className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors duration-300 shadow-lg float-right"
       >
         Create Question
       </button>

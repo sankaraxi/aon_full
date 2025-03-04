@@ -21,7 +21,7 @@ export default function Login(){
             alert("Please Enter the Password")
         }
         else{
-            axios.post("http://localhost:5001/login",key)
+            axios.post("http://localhost:5001/api/login",key)
             .then((res)=>{
                 
                 if(res.data.status==="success"){
@@ -54,7 +54,7 @@ export default function Login(){
       }
       const getIpAddress = async () => {
         try {
-          const response = await axios.get('http://localhost:5001/ip');
+          const response = await axios.get('http://localhost:5001/api/ip');
         //   setIp(response.data.ip);
         } catch (error) {
           console.error('Error fetching IP address:', error);
@@ -65,7 +65,7 @@ export default function Login(){
     useEffect(() => {
         const fetchIp = async () => {
             try {
-                const response = await axios.get('http://localhost:5001/api/get-ip');
+                const response = await axios.get('http://localhost:5001/api/api/get-ip');
                 setIp(response.data.ip);
             } catch (error) {
                 console.error('Error fetching the IP address', error);

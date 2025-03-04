@@ -16,7 +16,7 @@ export default function User() {
 
     useEffect(() => {
 
-        fetch("http://localhost:5001/getquestionbyid")
+        fetch("http://localhost:5001/api/getquestionbyid")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Question not found");
@@ -32,7 +32,7 @@ export default function User() {
                 setError(err.message);
             });
         
-        fetch("http://localhost:5001/getquestion")
+        fetch("http://localhost:5001/api/getquestion")
             .then(res => res.json())
             .then((data) => {
                 setHtmlContent(data[0].context);
@@ -55,7 +55,7 @@ export default function User() {
 
     const runScript = async () => {
         try {
-            const response = await fetch('http://localhost:5001/run-script', {
+            const response = await fetch('http://localhost:5001/api/run-script', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

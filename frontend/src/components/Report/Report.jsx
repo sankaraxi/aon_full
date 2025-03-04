@@ -6,9 +6,13 @@ export default function Reportfile() {
     const [report, setReport] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5173/responsive_test_results.json")
+        fetch("http://13.233.165.171/responsive_test_results.json")
             .then(res => res.json())
-            .then(data => setReport(data));
+            .then(data => {
+                setTimeout(() => {
+                    setReport(data);
+                }, 3000); // Delay of 3 seconds
+            });
     }, []); // Added empty dependency array to run only once
 
     const mobileIcon = '📱';

@@ -2,7 +2,7 @@ import React from "react";
 
 export function Transferfile(){
     const handleTransfer = async () => {
-        const response = await fetch('http://localhost:5001/transfer-files', {
+        const response = await fetch('http://localhost:5001/api/transfer-files', {
           method: 'POST',
         });
     

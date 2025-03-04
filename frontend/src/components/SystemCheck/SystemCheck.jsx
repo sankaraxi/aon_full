@@ -23,7 +23,7 @@ export default   function SystemCheck() {
 
   const checkDocker = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/check-docker");
+      const response = await axios.get("http://localhost:5001/api/check-docker");
       setDockerStatus(response.data);
     } catch (error) {
       setDockerStatus({ installed: false, message: "Error checking Docker status" });
@@ -35,7 +35,7 @@ export default   function SystemCheck() {
   const handleYMLFileClick = async () => {
     try {
       // Fetch the YML file from the server
-      const response = await fetch('http://localhost:5001/demoymlfile');
+      const response = await fetch('http://localhost:5001/api/demoymlfile');
       
       // Check if the response is successful
       if (!response.ok) {
@@ -178,9 +178,11 @@ export default   function SystemCheck() {
         <div className="mt-4">
           <Link
             to={`/user/${id}`}
-            className="block w-full text-center bg-green-500 text-white py-2 px-4 rounded-md shadow hover:bg-green-600 transition"
           >
-            Start Assessment
+            <button disabled={!downloaded} className={`block w-full text-center bg-green-500 text-white py-2 px-4 rounded-md shadow hover:bg-green-600 transition ${downloaded ? "cursor-pointer" : "cursor-not-allowed"}`}>
+              Start Assessment
+            </button>
+            
           </Link>
         </div>
       ) : (

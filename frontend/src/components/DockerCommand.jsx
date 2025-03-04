@@ -45,6 +45,7 @@ export default function DockerCommand() {
           <p>🔹 Ensure the file exists in the <b>Downloads</b> folder. If not, replace <code className="bg-gray-200 px-1 py-0.5 rounded">file_path</code> with the actual location.</p>
           <p>🔹 Replace <code className="bg-gray-200 px-1 py-0.5 rounded">your_username</code> with your Windows username.</p>
           {/* <p>🔹 Once the files are installed navigate to <Link className="text-blue-400" to="http://localhost:8081">http://localhost:8081</Link> and start the assement</p> */}
+          <p>🔹 Once the Docker setup is complete, start the application!</p>
         </div>
       </div>
   );

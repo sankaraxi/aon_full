@@ -30,7 +30,7 @@ export default function Menuuser() {
         if (emails === '') {
             alert("Please provide an email ID");
         } else {
-            axios.post("http://localhost:5001/text-mail", key)
+            axios.post("http://localhost:5001/api/text-mail", key)
                 .then((res) => {
                     if (res.data.message === "Mail send") {
                         alert("Mail sent successfully");
