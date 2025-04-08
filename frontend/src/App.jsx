@@ -9,6 +9,13 @@ import Menuuser from './components/UserMenu/UserMenu';
 import ScriptOutputPage from './components/User/startassessment';
 import Reportfile from './components/Report/Report';
 import Corepage from './components/question creation/question';
+import AdminDashboard from './components/admin/AdminDashboard';
+// import AdminTwo from './components/admin/AdminTwo';
+import AdminTwo from './components/admin/AdminTwoV2';
+import AdminThree from './components/admin/AdminThree';
+import AdminFour from './components/admin/AdminFour';
+import AdminFive from './components/admin/AdminFive';
+import LicensePurchase from './components/Stripe';
 
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -38,6 +45,12 @@ function App() {
         <Route path='/user/:id' element={[<Menu/>,<User/>]}/>
         <Route path='/workspace/:id' element={[<Menuuser/>,<ScriptOutputPage/>]}/>
         <Route path='/report/:id' element={[<Menuuser/>,<Reportfile/>]}/>
+        <Route path='/admin' element={[<Menu/>,<AdminDashboard/>]}/>  
+        <Route path='/admin/view/1' element={[<Menu/>,<AdminTwo />]}/>
+        <Route path='/admin/view/2' element={[<Menu/>,<AdminThree />]}/>
+        <Route path='/admin/view/3' element={[<Menu/>,<AdminFour />]}/>
+        <Route path='/admin/view/4' element={[<Menu/>,<AdminFive />]}/>
+        <Route path='/purchase/license' element={[<Menu/>,<LicensePurchase />]}/>
         {/* <Route path='/question/:id' element={[<User/>]}/> */}
       </Routes>
     </BrowserRouter>

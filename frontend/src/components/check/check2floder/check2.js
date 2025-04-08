@@ -1,7 +1,7 @@
 import React from 'react';
 export function Download(){
 const handleDownload = () => {
-  fetch('http://localhost:5001/api/download')
+  fetch('http://192.168.252.230:5001/api/download')
     .then(response => response.blob())
     .then(blob => {
       const url = window.URL.createObjectURL(new Blob([blob]));

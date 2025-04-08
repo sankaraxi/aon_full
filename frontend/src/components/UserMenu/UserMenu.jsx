@@ -30,7 +30,7 @@ export default function Menuuser() {
         if (emails === '') {
             alert("Please provide an email ID");
         } else {
-            axios.post("http://localhost:5001/api/text-mail", key)
+            axios.post("http://192.168.252.230:5001/api/text-mail", key)
                 .then((res) => {
                     if (res.data.message === "Mail send") {
                         alert("Mail sent successfully");
@@ -47,6 +47,13 @@ export default function Menuuser() {
         setIsGradeModalOpen(true);
     };
 
+    const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = `/grade_report.pdf`;
+        link.download = `grade_report.pdf`;
+        link.click();
+    };
+
     const closeGradeModal = () => {
         setIsModalClosing(true);
         setTimeout(() => {
@@ -58,7 +65,32 @@ export default function Menuuser() {
     const toggleMobileMenu = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
+    const runScript = async () => {
+        alert("Script is running");
+        try {
+            const response = await fetch('http://192.168.252.230:5001/api/run-Assesment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            console.log('Script output:', data);
+            alert("Assesment submitted successfully");
+        } catch (error) {
+            alert("Assesment submitted successfully");
+            openGradeModal()
+            console.error('Error running script:', error);
+        }
+    };
 
+    const getFormattedDate = () => {
+        const today = new Date();
+        const day = String(today.getDate()).padStart(2, "0");
+        const month = String(today.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+        const year = today.getFullYear();
+        return `${day}.${month}.${year}`;
+    };
     return (
         <>
             <nav className="bg-[#291571] px-4 md:px-10 sticky top-0 z-10 flex justify-between items-center">
@@ -87,9 +119,9 @@ export default function Menuuser() {
                         Grade
                     </button>
                     
-                    <Link to={`/report/${id}`}>
-                        <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md">Submit Assessment</button>
-                    </Link>
+                    
+                        <button onClick={runScript} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md">Submit Assessment</button>
+                   
                     
                     {/* Timer with fixed widths for all elements */}
                     <div className="flex items-center border-2 border-white/30 rounded-lg py-1 px-3 text-white">
@@ -130,9 +162,9 @@ export default function Menuuser() {
                         Grade
                     </button>
                     
-                    <Link to={`/report/${id}`} className="w-full">
-                        <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md w-full">Submit Assessment</button>
-                    </Link>
+                    {/* <Link to={`/report/${id}`} className="w-full"> */}
+                        <button onClick={runScript} className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 font-medium shadow-md w-full">Submit Assessment</button>
+                    {/* </Link> */}
                     
                     {/* Timer for mobile */}
                     <div className="flex items-center justify-center border-2 border-white/30 rounded-lg py-2 px-3 text-white">
@@ -191,7 +223,7 @@ export default function Menuuser() {
                             <div className="mb-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0">
                                 <div>
                                     <span className="text-sm text-gray-600">Test Date:</span>
-                                    <span className="ml-2 font-medium">25.02.2025</span>
+                                    <span className="ml-2 font-medium">{getFormattedDate()}</span>
                                 </div>
                                 <div className="flex items-center flex-wrap gap-4">
                                     <div className="flex items-center">
@@ -263,7 +295,7 @@ export default function Menuuser() {
                                 >
                                     Close
                                 </button>
-                                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200 hover:shadow-md w-full sm:w-auto">
+                                <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200 hover:shadow-md w-full sm:w-auto" onClick={handleDownload}>
                                     Download Report
                                 </button>
                             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function User() {
     var { id } = useParams();
@@ -16,7 +16,7 @@ export default function User() {
 
     useEffect(() => {
 
-        fetch("http://localhost:5001/api/getquestionbyid")
+        fetch("http://192.168.252.230:5001/api/getquestionbyid")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Question not found");
@@ -32,7 +32,7 @@ export default function User() {
                 setError(err.message);
             });
         
-        fetch("http://localhost:5001/api/getquestion")
+        fetch("http://192.168.252.230:5001/api/getquestion")
             .then(res => res.json())
             .then((data) => {
                 setHtmlContent(data[0].context);
@@ -53,21 +53,34 @@ export default function User() {
         setShowTable(!showTable);
     };
 
-    const runScript = async () => {
+    // const runScript = async () => {
+    //     try {
+    //         const response = await fetch('http://192.168.252.230:5001/api/run-script', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //         });
+    //         const data = await response.json();
+    //         console.log('Script output:', data);
+    //         window.location.href = `/workspace/${id}`;
+    //     } catch (error) {
+    //         console.error('Error running script:', error);
+    //     }
+    // };
+
+    const handleStartAssessment = async () => {
         try {
-            const response = await fetch('http://localhost:5001/api/run-script', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            const data = await response.json();
-            console.log('Script output:', data);
-            window.location.href = `/workspace/${id}`;
-        } catch (error) {
-            console.error('Error running script:', error);
+          const res = await fetch('http://192.168.252.230:5001/api/run-script', { method: 'POST' });
+          const data = await res.json();
+          console.log('Script output:', data.stdout);
+          alert('Assessment started!');
+        } catch (err) {
+          console.error(err);
+          alert('Something went wrong xstarting the assessment.');
         }
-    };
+      };
+
 
     return (
         <>
@@ -156,8 +169,8 @@ export default function User() {
                         </div> */}
                         <div className="shadow-md p-7 md:mx-20 my-2" dangerouslySetInnerHTML={{__html: question}}></div>
                         <div className="md:mx-20 md:flex justify-center md:justify-between items-center">    
-                            <h4 className="text-green-600 text-lg mt-2">Assessment will start in: {timeLeft} seconds</h4>
-                            <button onClick={runScript} className={`bg-blue-500 text-white px-4 py-2 rounded-md lg:float-right mt-4 ${isButtonEnabled ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={!isButtonEnabled}>Start Assessment</button>
+                            {/* <Link to={`/workspace/${id}`}><button  className={`bg-blue-500 text-white px-4 py-2 rounded-md lg:float-right mt-4 ${isButtonEnabled ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={!isButtonEnabled}>Start Assessment</button></Link> */}
+                            <button onClick={handleStartAssessment} className="">Start Assessment</button>
                         </div>
                        
                     </div>

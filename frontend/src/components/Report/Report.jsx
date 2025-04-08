@@ -6,7 +6,7 @@ export default function Reportfile() {
     const [report, setReport] = useState([]);
 
     useEffect(() => {
-        fetch("http://13.233.165.171/responsive_test_results.json")
+        fetch("http://192.168.252.230:5001/responsive_test_results.json")
             .then(res => res.json())
             .then(data => {
                 setTimeout(() => {

@@ -18,7 +18,7 @@ export default function Addcategory() {
     };
     
     if (selectcategory === "") {
-      axios.post("http://localhost:5001/api/addcategory", category)
+      axios.post("http://192.168.252.230:5001/api/addcategory", category)
         .then((res) => {
           if (res.data.status === "inserted") {
             alert("category is created");
@@ -31,7 +31,7 @@ export default function Addcategory() {
       if (getcategory === "") {
         alert("Please enter the category");
       } else {
-        axios.post("http://localhost:5001/api/subcategory", subcategory)
+        axios.post("http://192.168.252.230:5001/api/subcategory", subcategory)
           .then((res) => {
             if (res.data.status === "inserted") {
               alert("sub-category is created");
@@ -45,7 +45,7 @@ export default function Addcategory() {
   }
   
   useEffect(() => {
-    fetch("http://localhost:5001/api/getcategory")
+    fetch("http://192.168.252.230:5001/api/getcategory")
       .then(res => res.json())
       .then(data => setdisplaycategory(data));
   }, []);

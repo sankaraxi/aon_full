@@ -1,6 +1,9 @@
 import { Code } from 'lucide-react';
 import React, { useState } from 'react';
 import CodeEditor from './CodeEditor';
+// import CodeEditorII from './CodeEditorII';
+// import App from './App';
+// import AppII from './App';
 
 const ScriptOutputPage = () => {
     const [clientIp, setClientIp] = useState('');
@@ -64,7 +67,7 @@ const ScriptOutputPage = () => {
 
     return (
         <div className="relative">
-            {showModal && (
+            {/* {showModal && (
                 <div className="fixed inset-0 backdrop-blur-xs flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
                         <h2 className="text-xl font-bold mb-4">Enter Your Local IPv4 Address</h2>
@@ -129,9 +132,9 @@ const ScriptOutputPage = () => {
                         </form>
                     </div>
                 </div>
-            )}
+            )} */}
 
-            {clientIp && (
+            {(
                 <div className="">
                     {clientIp && notificationVisible && (
                     <div className="bg-blue-100 border-l-4 border-blue-500 p-4 mb-4 flex justify-between items-center">
@@ -168,6 +171,8 @@ const ScriptOutputPage = () => {
                     ></iframe> */}
                     <div className=''>
                         <CodeEditor />
+                        {/* <AppII /> */}
+                        {/* <CodeEditorII /> */}
                     </div>
                     
                 </div>
@@ -185,7 +190,7 @@ export default ScriptOutputPage;
 //     const [clientIp, setClientIp] = useState('');
 
 //     useEffect(() => {
-//         fetch('http://localhost:5001/api/get-ip')
+//         fetch('http://192.168.252.230:5001/api/get-ip')
 //             .then(response => response.text()) // Expecting plain text response
 //             .then(ip => {
 //                 const trimmedIp = ip.replace(/^::ffff:/, '').trim(); // Remove IPv6 prefix if present

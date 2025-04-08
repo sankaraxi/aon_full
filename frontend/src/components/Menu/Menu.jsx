@@ -19,7 +19,7 @@ export default function Menu() {
     if (emails === "") {
       alert("Please provide an email ID");
     } else {
-      axios.post("http://localhost:5001/api/text-mail", key).then((res) => {
+      axios.post("http://192.168.252.230:5001/api/text-mail", key).then((res) => {
         if (res.data.message === "Mail send") {
           alert("Mail sent successfully");
           window.location.reload();
@@ -88,7 +88,7 @@ export default function Menu() {
         )}
       </nav>
 
-      {/* Invite User Modal - Make it controlled by state */}
+      {/* Invite User Modal - Make it controlled by state
       {inviteModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
           <div className="bg-white rounded-lg w-full max-w-md shadow-xl transform transition-all duration-300 animate-fadeIn">
@@ -133,10 +133,10 @@ export default function Menu() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Optional: Button to open the invite modal */}
-      <div className="fixed bottom-6 right-6">
+      {/* <div className="fixed bottom-6 right-6">
         <button 
           onClick={toggleInviteModal}
           className="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition duration-300"
@@ -145,7 +145,7 @@ export default function Menu() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
           </svg>
         </button>
-      </div>
+      </div> */}
     </>
   );
 }

@@ -23,7 +23,7 @@ export default   function SystemCheck() {
 
   const checkDocker = async () => {
     try {
-      const response = await axios.get("http://localhost:5001/api/check-docker");
+      const response = await axios.get("http://192.168.252.230:5001/api/check-docker");
       setDockerStatus(response.data);
     } catch (error) {
       setDockerStatus({ installed: false, message: "Error checking Docker status" });
@@ -35,7 +35,7 @@ export default   function SystemCheck() {
   const handleYMLFileClick = async () => {
     try {
       // Fetch the YML file from the server
-      const response = await fetch('http://localhost:5001/api/demoymlfile');
+      const response = await fetch('http://192.168.252.230:5001/api/demoymlfile');
       
       // Check if the response is successful
       if (!response.ok) {
@@ -143,7 +143,7 @@ export default   function SystemCheck() {
         <p>By participating, you confirm that you have read and agreed to these terms.</p>
       </section>
 
-      {/* System Check Section */}
+      {/* System Check Section
       <section className="mb-6">
         <h2 className="text-xl font-semibold text-gray-700">System Check</h2>
         <ul className="space-y-2 mt-3">
@@ -153,10 +153,10 @@ export default   function SystemCheck() {
             </li>
           ))}
         </ul>
-      </section>
+      </section> */}
 
       {/* Docker Status Check (Commented Out) */}
-      {dockerStatus && (
+      {/* {dockerStatus && (
         <>
             <p className="text-gray-700 mt-3">
                 {dockerStatus.installed ? `Docker is installed: ${dockerStatus.message}` : dockerStatus.message}
@@ -167,19 +167,19 @@ export default   function SystemCheck() {
         </>
        
 
-      )}
+      )} */}
 
       { downloaded && <DockerCommand /> }
 
       {console.log(dockerStatus)}
 
       {/* Button Section */}
-      {testStatus === "Checked" ? (
+      {/* {testStatus === "Checked" ? (
         <div className="mt-4">
           <Link
             to={`/user/${id}`}
           >
-            <button disabled={!downloaded} className={`block w-full text-center bg-green-500 text-white py-2 px-4 rounded-md shadow hover:bg-green-600 transition ${downloaded ? "cursor-pointer" : "cursor-not-allowed"}`}>
+            <button  className={`block w-full text-center bg-green-500 text-white py-2 px-4 rounded-md shadow hover:bg-green-600 transition cursor-pointer`}>
               Start Assessment
             </button>
             
@@ -192,7 +192,17 @@ export default   function SystemCheck() {
         >
           Check System Specifications
         </button>
-      )}
+      )} */}
+      <div className="mt-4">
+          <Link
+            to={`/user/${id}`}
+          >
+            <button  className={`block w-full text-center bg-green-500 text-white py-2 px-4 rounded-md shadow hover:bg-green-600 transition cursor-pointer`}>
+              Start Assessment
+            </button>
+            
+          </Link>
+        </div>
     </div>
   );
 }
