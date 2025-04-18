@@ -17,7 +17,7 @@ export default function Corepage() {
 
   // Fetch categories on component mount
   useEffect(() => {
-    fetch("http://192.168.252.230:5001/api/getcategory")
+    fetch("http://localhost:5001/api/getcategory")
       .then(res => res.json())
       .then(data => setDisplaycategory(data));
   }, []);
@@ -26,7 +26,7 @@ export default function Corepage() {
   const handlesubcategory = () => {
     const category = document.getElementById("category_select").value;
     const key = { category };
-    axios.post("http://192.168.252.230:5001/api/getsubcategory", key)
+    axios.post("http://localhost:5001/api/getsubcategory", key)
       .then((res) => {
         setDisplaysubcategory(res.data);
       });
@@ -120,7 +120,7 @@ export default function Corepage() {
     if (question === '') {
       alert("Please provide the question");
     } else {
-      axios.post("http://192.168.252.230:5001/api/insertquestion", key)
+      axios.post("http://localhost:5001/api/insertquestion", key)
         .then((res) => {
           if (res.data.status === "inserted") {
             alert("Question created successfully");

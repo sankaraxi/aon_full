@@ -34,7 +34,7 @@ export default function LicensePurchase() {
   // Checkout function for online payment
   function checkout(itemPrice, quantity) {
     // alert("Checkout function for online payment");
-    fetch(`http://192.168.252.230:5001/create-checkout-session/${id}`, {
+    fetch(`http://localhost:5001/create-checkout-session/${id}`, {
     
       method: "POST",
       headers: {

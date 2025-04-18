@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import A1L1Question from "./A1L1Question";
+import A1L1Q03Question from "./A1L1Q3Question";
 
 export default function User() {
     var { id } = useParams();
@@ -9,14 +11,34 @@ export default function User() {
     const [timeLeft, setTimeLeft] = useState(6);
     const [showTable, setShowTable] = useState(false);
     const [question, setQuestion] = useState("");
+    const [redirectCountdown, setRedirectCountdown] = useState(null);
+    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [reactOrVue, setReactOrVue] = useState(null);
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // },[])
+    const userRole = localStorage.getItem("userRole");
+    const userId = localStorage.getItem("userId");
+    const userName = localStorage.getItem("userName");
+    const userQuestion = localStorage.getItem("userQues");
+    const navigate = useNavigate();
+
+
+    console.log(reactOrVue)
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[])
 
     useEffect(() => {
+        const userRole = localStorage.getItem("userRole");
 
-        fetch("http://192.168.252.230:5001/api/getquestionbyid")
+        console.log("User role:", userRole);
+
+        if (["4", "3", "5"].includes(userRole)) {
+        setIsAuthorized(true); // Let them through
+        } else {
+        navigate("/"); // Kick 'em out
+        }
+
+        fetch("http://localhost:5001/api/getquestionbyid")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Question not found");
@@ -32,7 +54,7 @@ export default function User() {
                 setError(err.message);
             });
         
-        fetch("http://192.168.252.230:5001/api/getquestion")
+        fetch("http://localhost:5001/api/getquestion")
             .then(res => res.json())
             .then((data) => {
                 setHtmlContent(data[0].context);
@@ -47,7 +69,7 @@ export default function User() {
         } else {
             setIsButtonEnabled(true);
         }
-    }, [timeLeft]);
+    }, [timeLeft, navigate]);
 
     const toggleTable = () => {
         setShowTable(!showTable);
@@ -55,7 +77,7 @@ export default function User() {
 
     // const runScript = async () => {
     //     try {
-    //         const response = await fetch('http://192.168.252.230:5001/api/run-script', {
+    //         const response = await fetch('http://localhost:5001/api/run-script', {
     //             method: 'POST',
     //             headers: {
     //                 'Content-Type': 'application/json',
@@ -69,23 +91,66 @@ export default function User() {
     //     }
     // };
 
-    const handleStartAssessment = async () => {
+    const handleReactOrVue = (e) => {
+        setReactOrVue(e.target.value);
+        localStorage.setItem("framework", e.target.value)
+    };
+
+    // const handleStartAssessment = async () => {
+    //     try {
+    //       const res = await fetch('http://localhost:5001/api/run-script', { method: 'POST' });
+    //       const data = await res.json();
+    //       console.log('Script output:', data.stdout);
+    //       alert('Assessment started!');
+    //     } catch (err) {
+    //       console.error(err);
+    //       alert('Something went wrong xstarting the assessment.');
+    //     }
+    //   };
+      const handleStartAssessmentII = async (selectedFramework) => {
+        let countdown = 30;
+        setRedirectCountdown(countdown); // Show "Redirecting in 10 seconds..."
+    
+        const interval = setInterval(() => {
+            countdown -= 1;
+            setRedirectCountdown(countdown);
+    
+            if (countdown === 0) {
+                clearInterval(interval);
+                window.location.href = `/workspace/${id}`;
+            }
+        }, 1000);
+
         try {
-          const res = await fetch('http://192.168.252.230:5001/api/run-script', { method: 'POST' });
-          const data = await res.json();
-          console.log('Script output:', data.stdout);
-          alert('Assessment started!');
-        } catch (err) {
-          console.error(err);
-          alert('Something went wrong xstarting the assessment.');
-        }
-      };
+            const res = await fetch('http://localhost:5001/api/run-script', 
+                {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      userId: userId,
+                      userName: userName,
+                      question: userQuestion,
+                    framework: selectedFramework
+                    }),
+                  }
+            );
+            const data = await res.json();
+            console.log('Script output:', data.stdout);
+            alert('Assessment started!');
+          } catch (err) {
+            console.error(err);
+            alert('Something went wrong xstarting the assessment.');
+          }
+    };
+    
 
 
     return (
         <>
-            <div className="w-full p-5">
-                <div className="p-5 mb-2">
+            <div className="w-full py-3 px-5">
+                <div className="px-5 mb-2">
                     {/* <div className="w-full" dangerouslySetInnerHTML={{__html: question}}></div> */}
 
                     <div className="w-full" >
@@ -167,10 +232,60 @@ export default function User() {
                                 </ul>
                             </section>
                         </div> */}
-                        <div className="shadow-md p-7 md:mx-20 my-2" dangerouslySetInnerHTML={{__html: question}}></div>
+                        {
+                            userRole === "3" || userRole === "4" ? (
+                                <div className="shadow-md p-7 md:mx-20 my-2">
+                                    {/* <A1L1Question /> */}
+                                    <A1L1Q03Question />
+                                </div>
+                            ) : (
+                                <div className="shadow-md p-7 md:mx-20 my-2" dangerouslySetInnerHTML={{__html: question}}></div>
+                            )
+                        }
+
+                        <div className="md:mx-20 flex items-center gap-3 justify-start mt-4">
+                            <h6>Select preferred Framework</h6>
+                            <select onChange={handleReactOrVue}  className="border-2 border-blue-300 flex items-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option value="">Select</option>
+                                <option value="react">React</option>
+                                <option value="vue">Vue</option>    
+                            </select>
+                        </div>
+                        
                         <div className="md:mx-20 md:flex justify-center md:justify-between items-center">    
-                            {/* <Link to={`/workspace/${id}`}><button  className={`bg-blue-500 text-white px-4 py-2 rounded-md lg:float-right mt-4 ${isButtonEnabled ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={!isButtonEnabled}>Start Assessment</button></Link> */}
-                            <button onClick={handleStartAssessment} className="">Start Assessment</button>
+                            {/* <Link to={`/workspace/${id}`}> */}
+                            {/* <button onClick={handleStartAssessmentII}  className={`bg-blue-500 text-white px-4 py-2 rounded-md lg:float-right mt-4 ${isButtonEnabled ? "cursor-pointer" : "cursor-not-allowed"}`} disabled={!isButtonEnabled}>Start Assessment</button> */}
+                            {/* </Link> */}
+                            {/* <button onClick={handleStartAssessment} className="">Start Assessment</button> */}
+
+                                <button 
+                                    onClick={()=>handleStartAssessmentII(reactOrVue)}
+                                    className={`bg-blue-500  px-4 py-2 rounded-md lg:float-right mt-4 ${isButtonEnabled && reactOrVue ? "cursor-pointer text-white" : "cursor-not-allowed bg-gray-200 text-black"}`} 
+                                    disabled={!isButtonEnabled || !reactOrVue}>
+                                    Start Assessment
+                                </button>
+
+                                {/* {redirectCountdown !== null && redirectCountdown > 0 && (
+                                <div className="text-sm text-gray-700 mt-2">
+                                    Redirecting in {redirectCountdown} second{redirectCountdown > 1 ? 's' : ''}…
+                                </div>
+                                )} */}
+
+                            {redirectCountdown !== null && redirectCountdown > 0 && (
+                            <div className="fixed inset-0 z-50 flex items-center  justify-center bg-black bg-opacity-50">
+                                <div className="bg-white p-6 rounded-lg shadow-lg text-center animate-pulse w-[450px]">
+                                <h2 className="text-2xl font-semibold text-blue-600 mb-2">Creating Workspace</h2>
+                                <p className="text-gray-700">Please wait while we set things up for you…</p>
+                                <div className="mt-4">
+                                    <svg className="mx-auto h-8 w-8 text-blue-500 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+                                    </svg>
+                                </div>
+                                </div>
+                            </div>
+                            )}
+
                         </div>
                        
                     </div>

@@ -16,6 +16,8 @@ import AdminThree from './components/admin/AdminThree';
 import AdminFour from './components/admin/AdminFour';
 import AdminFive from './components/admin/AdminFive';
 import LicensePurchase from './components/Stripe';
+import A1L1Question from './components/User/A1L1Question';
+import Guidelines from './components/guidelines/Guidelines';
 
 // import 'bootstrap/dist/css/bootstrap.css'
 // import 'bootstrap/dist/js/bootstrap.bundle.min.js'
@@ -51,6 +53,8 @@ function App() {
         <Route path='/admin/view/3' element={[<Menu/>,<AdminFour />]}/>
         <Route path='/admin/view/4' element={[<Menu/>,<AdminFive />]}/>
         <Route path='/purchase/license' element={[<Menu/>,<LicensePurchase />]}/>
+        <Route path='/test' element={[<Guidelines />]}/>
+
         {/* <Route path='/question/:id' element={[<User/>]}/> */}
       </Routes>
     </BrowserRouter>

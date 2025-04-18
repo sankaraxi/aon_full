@@ -190,7 +190,7 @@ export default ScriptOutputPage;
 //     const [clientIp, setClientIp] = useState('');
 
 //     useEffect(() => {
-//         fetch('http://192.168.252.230:5001/api/get-ip')
+//         fetch('http://localhost:5001/api/get-ip')
 //             .then(response => response.text()) // Expecting plain text response
 //             .then(ip => {
 //                 const trimmedIp = ip.replace(/^::ffff:/, '').trim(); // Remove IPv6 prefix if present

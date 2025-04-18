@@ -19,7 +19,7 @@ export default function Menu() {
     if (emails === "") {
       alert("Please provide an email ID");
     } else {
-      axios.post("http://192.168.252.230:5001/api/text-mail", key).then((res) => {
+      axios.post("http://localhost:5001/api/text-mail", key).then((res) => {
         if (res.data.message === "Mail send") {
           alert("Mail sent successfully");
           window.location.reload();
@@ -37,6 +37,37 @@ export default function Menu() {
   const toggleInviteModal = () => {
     setInviteModalOpen(!inviteModalOpen);
   };
+
+
+
+  const handleLogout = async () => {
+    
+    // try {
+    //     const userId = localStorage.getItem("userId");
+    //   const res = await fetch("http://localhost:5001/api/logout", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ userId }),
+    //   });
+
+    //   const data = await res.json();
+    //   if (data.status === "logged_out") {
+    //     localStorage.removeItem("userRole");
+    //     alert("Logged out successfully");
+    //     window.location.href = "/"; // Redirect to login page
+    //   } else {
+    //     alert("Logout failed: " + (data.message || ""));
+    //   }
+    // } catch (err) {
+    //   console.error("Logout error:", err);
+    //   alert("Error logging out.");
+    // }
+
+    localStorage.removeItem("userRole");
+    window.location.href = "/"; // Redirect to login page
+  }
 
   return (
     <>
@@ -58,14 +89,14 @@ export default function Menu() {
           <div className="hidden lg:flex items-center space-x-4">
             {/* Additional navigation links can go here */}
             
-            <Link to="/">
-              <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-300 shadow-md flex items-center font-medium">
+            
+              <button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-300 shadow-md flex items-center font-medium">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
                 Logout
               </button>
-            </Link>
+           
           </div>
         </div>
         

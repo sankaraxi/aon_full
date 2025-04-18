@@ -21,9 +21,12 @@ export default function Login(){
             alert("Please Enter the Password")
         }
         else{
-            axios.post("http://192.168.252.230:5001/api/login",key)
+            axios.post("http://localhost:5001/api/login",key)
             .then((res)=>{
-                
+                localStorage.setItem("userId", res.data.id)
+                localStorage.setItem("userRole", res.data.role)
+                localStorage.setItem("userName", res.data.name)
+                localStorage.setItem("userQues", res.data.question)
                 if(res.data.status==="success"){
                     var role=res.data.role;
                     var id=res.data.id;
@@ -37,7 +40,10 @@ export default function Login(){
                         window.location.href=`/systemcheck/${id}`
                     }
                     else if(role===4){
-                        window.location.href=`/bde/${id}`
+                        window.location.href=`/systemcheck/${id}`
+                    }
+                    else if(role===5){
+                        window.location.href=`/systemcheck/${id}`
                     }
                 }
                 else if(res.data.status==="invalid_user"){
@@ -54,7 +60,7 @@ export default function Login(){
       }
       const getIpAddress = async () => {
         try {
-          const response = await axios.get('http://192.168.252.230:5001/api/ip');
+          const response = await axios.get('http://localhost:5001/api/ip');
         //   setIp(response.data.ip);
         } catch (error) {
           console.error('Error fetching IP address:', error);
@@ -65,7 +71,7 @@ export default function Login(){
     useEffect(() => {
         const fetchIp = async () => {
             try {
-                const response = await axios.get('http://192.168.252.230:5001/api/api/get-ip');
+                const response = await axios.get('http://localhost:5001/api/api/get-ip');
                 setIp(response.data.ip);
             } catch (error) {
                 console.error('Error fetching the IP address', error);
@@ -76,9 +82,9 @@ export default function Login(){
     }, []);
     return(
         <>
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-          <div className="relative w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
-            <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-gray-100">
+        <div className="px-40 flex items-center justify-center min-h-screen bg-gray-100">
+          <div className="relative w-full max-w-md bg-white mt-10 p-8 rounded-2xl shadow-lg">
+            <div className="absolute -top-17 left-1/2 transform -translate-x-1/2 w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-md border-4 border-gray-100">
               <img src={kglogo} className="w- rounded-full" alt="Logo" />
             </div>
             <h2 className="text-2xl font-bold text-center text-gray-700 mt-12 mb-6">Sign In</h2>
