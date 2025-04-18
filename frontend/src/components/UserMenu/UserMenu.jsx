@@ -24,9 +24,15 @@ export default function Menuuser() {
     const [detailedResultsII, setDetailedResultsII] = useState({});
     const [isGradeModalOpenII, setIsGradeModalOpenII] = useState(false);
     const [showGuidelines, setShowGuidelines] = useState(false);
-
+    const [notRunning, setNotRunning] = useState(true);
     const userId = localStorage.getItem("userId");
     const userRole = localStorage.getItem("userRole");
+    const userQuestion = localStorage.getItem("userQues");
+    const outputPort = localStorage.getItem("outputPort");
+    const framework = localStorage.getItem("framework");
+    console.log("userId:", outputPort);
+
+    console.log(notRunning);
 
     useEffect(() => {
         if (detailedResults?.EvaluationDetails?.length > 0) {
@@ -39,6 +45,16 @@ export default function Menuuser() {
 
     }, [detailedResults, detailedResultsII]);
 
+    useEffect(() => {
+        if (isModalClosing) {
+            const timer = setTimeout(() => {
+                setNotRunning(false);     // Remove modal from DOM
+                setIsModalClosing(false); // Reset for next time
+            }, 400); // Match your animation duration
+    
+            return () => clearTimeout(timer); // Just in case
+        }
+    }, [isModalClosing]);
 
     useEffect(() => {
         if (timeLeft === 0) {
@@ -48,7 +64,7 @@ export default function Menuuser() {
                 await fetch('http://localhost:5001/api/run-Assesment', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ userId }),
+                  body: JSON.stringify({ userId:userId, outputPort:outputPort }),
                 });
               } catch (err) {
                 console.error("Submit error:", err);
@@ -220,7 +236,9 @@ export default function Menuuser() {
                   'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                  userId: userId
+                  userId: userId,
+                    question: userQuestion,
+                  framework: framework,
                 }),
             });
         
@@ -268,33 +286,110 @@ export default function Menuuser() {
     const runScript = async () => {
 
         if(userRole === '3' || userRole === '4'){
-            try {
-                const response = await fetch('http://localhost:5001/api/run-Assesment', {
-                    method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                    userId: userId
-                    }),
-                });
-                const data = await response.json();
-                // console.log('Script output:', data);
-                console.log(data)
-            setDetailedResults(data.detailedResults)
-        
+            if(userQuestion === 'a1l1q3'){
+                try {
+                    const response = await fetch('http://localhost:5001/api/run-Assesment', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId:userId, framework:framework
+                        }),
+                    });
+                    const data = await response.json();
+                    // console.log('Script output:', data);
+                    if (
+                        data.error &&
+                        data.error.includes("Frontend application is not running on port")
+                      ) {
+                        console.log("Error running script:", data.error);
+                        setNotRunning(!notRunning);
+                      }
+                      
             
-            alert("Assesment submitted successfully");
-            } catch (err) {
-                console.error(err);
-                if (err.response && err.response.data?.error) {
-                //   setError(err.response.data.error);
-                console.error('Error running script:', err.response.data.error);
-                } else {
+                setDetailedResults(data.detailedResults)
+                } catch (err) {
                     console.error('Error running script:', err);
-                //   setError('Something went wrong.');
-                }
-              }
+                    setNotRunning(!notRunning);
+                    if (err.response && err.response.data?.error) {
+                    //   setError(err.response.data.error);
+                    console.error('Error running script:', err.response.data.error);
+                    } else {
+                        console.error('Error running script:', err);
+                    //   setError('Something went wrong.');
+                    }
+                  }
+            }else if(userQuestion === 'a1l1q2'){
+                try {
+                    const response = await fetch('http://localhost:5001/api/run-Assesment-2', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId:userId, framework:framework
+                        }),
+                    });
+                    const data = await response.json();
+                    // console.log('Script output:', data);
+                    if (
+                        data.error &&
+                        data.error.includes("Frontend application is not running on port")
+                      ) {
+                        console.log("Error running script:", data.error);
+                        setNotRunning(!notRunning);
+                      }
+                      
+            
+                setDetailedResults(data.detailedResults)
+                } catch (err) {
+                    console.error('Error running script:', err);
+                    setNotRunning(!notRunning);
+                    if (err.response && err.response.data?.error) {
+                    //   setError(err.response.data.error);
+                    console.error('Error running script:', err.response.data.error);
+                    } else {
+                        console.error('Error running script:', err);
+                    //   setError('Something went wrong.');
+                    }
+                  }
+            }else if(userQuestion === 'a1l1q1'){
+                try {
+                    const response = await fetch('http://localhost:5001/api/run-Assesment-1', {
+                        method: 'POST',
+                        headers: {
+                        'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId:userId, framework:framework
+                        }),
+                    });
+                    const data = await response.json();
+                    // console.log('Script output:', data);
+                    if (
+                        data.error &&
+                        data.error.includes("Frontend application is not running on port")
+                      ) {
+                        console.log("Error running script:", data.error);
+                        setNotRunning(!notRunning);
+                      }
+                      
+            
+                setDetailedResults(data.detailedResults)
+                } catch (err) {
+                    console.error('Error running script:', err);
+                    setNotRunning(!notRunning);
+                    if (err.response && err.response.data?.error) {
+                    //   setError(err.response.data.error);
+                    console.error('Error running script:', err.response.data.error);
+                    } else {
+                        console.error('Error running script:', err);
+                    //   setError('Something went wrong.');
+                    }
+                  }
+            }
+            
         } else if (userRole === '5'){
             try {
                 const response = await fetch('http://localhost:5001/api/run-a10l10-Assesment', {
@@ -822,6 +917,54 @@ export default function Menuuser() {
         </div>
     </div>
 )}
+
+{notRunning && (
+    <div 
+        className={`fixed inset-0 flex justify-center items-center z-50 transition-opacity duration-400 p-4 ${
+            isModalClosing ? 'opacity-0' : 'opacity-100'
+        }`}
+        style={{backgroundColor: 'rgba(0, 0, 0, 0.5)'}}
+    >
+        <div 
+            className={`relative bg-white w-full max-w-2xl rounded-lg shadow-xl transform transition-all duration-400 ${
+                isModalClosing 
+                    ? 'opacity-0 scale-90 -translate-y-4' 
+                    : 'opacity-100 scale-100 translate-y-0'
+            } max-h-[90vh] overflow-auto`}
+        >
+            {/* ❌ Close Button */}
+            <button 
+                onClick={() => setIsModalClosing(true)} 
+                className="absolute top-3 right-3 z-50 text-gray-600 hover:text-black text-2xl font-bold focus:outline-none"
+            >
+                &times;
+            </button>
+
+            <div className="shadow-md p-4 animation">
+            
+                      <h2 className="text-xl font-semibold text-gray-800 mb-2 headingcolor"> Configuration Setup</h2>
+                      <p className="text-gray-700 mb-2">Before starting the development:</p>
+                      <ul className="list-disc list-inside text-gray-700 mt-1 space-y-1">
+                        <li><strong>Step 1:</strong> Open the terminal and install the required npm modules.</li>
+                        <div>
+            
+                          <img src="/npminstall.png" className="animation"/>
+                        </div>
+                        <li><strong>Step 2:</strong> Also, verify <code>index.html</code> for the structure of HTML Components.</li>
+                        <div>
+                          <img src="/npmrundev.png" className="animation"/>
+                        </div>
+                        <li><strong>Step 3:</strong> Check the App.js (for React) or App.vue (for Vue) file to understand the structure and the class names used.</li>
+                        <li>Based on those class names, create appropriate styles in the <code>App.css</code></li>
+                        <li>Also, review the <code>index.html</code> file located in the project folder to ensure that your layout aligns with any HTML structure-related test cases. This helps you meet all DOM and layout requirements during validation. </li>
+                        <li><strong>Step 4:</strong> Click the <code>Output</code> button to view your output.</li>
+                        <strong>You click on the <code>Guidelines</code> button in the assessment page if you have any queries. </strong>
+                      </ul>
+                    </div>
+        </div>
+    </div>
+)}
+
         </>
     );
 }

@@ -37,7 +37,7 @@ export default function A1L1Q03Question() {
         <li>Image inside card: <code>100px × 100px</code></li>
         <li>Product titles should be <strong>center-aligned</strong></li>
         <li>Overall container padding: <code>30px</code> top/bottom, <code>20px</code> left/right</li>
-        <li>Layout must be responsive and adjust to smaller screens</li>
+        <li>Layout must be device responsive and adjust to smaller screens</li>
         <li>HTML should be semantically structured (use of <code>html</code>, <code>head</code>, <code>body</code>, <code>section</code>, etc.)</li>
       </ul>
 
@@ -53,7 +53,7 @@ export default function A1L1Q03Question() {
           {[
             ["Layout", "Uses CSS Grid, correct column count, spacing, and card placement"],
             ["Styling", "Padding, borders, image sizing, text alignment, and hover effect"],
-            ["Responsiveness", "Layout adapts properly across screen sizes"],
+            ["Responsiveness", "Device Responsive"],
             ["Code Quality", "Clean HTML structure, semantic tags used, reusable CSS"],
             ["Performance", "Page loads quickly without excessive rendering or layout shifts"]
           ].map(([category, criteria], idx) => (

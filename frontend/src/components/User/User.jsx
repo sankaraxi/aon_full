@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import A1L1Question from "./A1L1Question";
 import A1L1Q03Question from "./A1L1Q3Question";
+import A1L1Q02Question from "./A1L1Q2Question";
+import A1L1Q01Question from "./A1L1Q1Question";
 
 export default function User() {
     var { id } = useParams();
@@ -233,10 +235,17 @@ export default function User() {
                             </section>
                         </div> */}
                         {
+
+                        
                             userRole === "3" || userRole === "4" ? (
                                 <div className="shadow-md p-7 md:mx-20 my-2">
                                     {/* <A1L1Question /> */}
-                                    <A1L1Q03Question />
+                                    <>
+                                        {userQuestion === "a1l1q3" && <A1L1Q03Question />}
+                                        {userQuestion === "a1l1q2" && <A1L1Q02Question />}
+                                        {userQuestion === "a1l1q1" && <A1L1Q01Question />}
+                                        </>
+                                    
                                 </div>
                             ) : (
                                 <div className="shadow-md p-7 md:mx-20 my-2" dangerouslySetInnerHTML={{__html: question}}></div>

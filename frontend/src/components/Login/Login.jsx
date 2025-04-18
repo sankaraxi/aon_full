@@ -27,6 +27,8 @@ export default function Login(){
                 localStorage.setItem("userRole", res.data.role)
                 localStorage.setItem("userName", res.data.name)
                 localStorage.setItem("userQues", res.data.question)
+                localStorage.setItem("dockerPort", res.data.docker_port)
+                localStorage.setItem("outputPort", res.data.output_port)
                 if(res.data.status==="success"){
                     var role=res.data.role;
                     var id=res.data.id;
